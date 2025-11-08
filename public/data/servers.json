@@ -1,0 +1,52 @@
+[
+  {
+    "id": "binance-ny",
+    "exchange": "Binance",
+    "provider": "AWS",
+    "regionCode": "us-east-1",
+    "lat": 40.7128,
+    "lng": -74.006,
+    "host": "api.binance.com",
+    "port": 443
+  },
+  {
+    "id": "binance-sg",
+    "exchange": "Binance",
+    "provider": "AWS",
+    "regionCode": "ap-southeast-1",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "api.binance.com",
+    "port": 443
+  },
+  {
+    "id": "bybit-sg",
+    "exchange": "Bybit",
+    "provider": "GCP",
+    "regionCode": "asia-southeast1",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "api.bybit.com",
+    "port": 443
+  },
+  {
+    "id": "okx-sg",
+    "exchange": "OKX",
+    "provider": "Azure",
+    "regionCode": "southeastasia",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "www.okx.com",
+    "port": 443
+  },
+  {
+    "id": "deribit-nl",
+    "exchange": "Deribit",
+    "provider": "Other",
+    "regionCode": "eu-west",
+    "lat": 52.3676,
+    "lng": 4.9041,
+    "host": "www.deribit.com",
+    "port": 443
+  }
+]
