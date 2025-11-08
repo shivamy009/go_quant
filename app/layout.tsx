@@ -3,15 +3,15 @@ import './globals.css';
 import React from 'react';
 
 export const metadata = {
-  title: 'Latency Topology Visualizer',
-  description: '3D globe with real-time latency visualization'
+  title: 'Crypto Exchange Latency Visualizer',
+  description: '3D world map visualization of cryptocurrency exchange server latency across AWS, GCP, and Azure regions'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-slate-900 text-white min-h-screen">
-        <div className="max-w-7xl mx-auto p-4">{children}</div>
+    <html lang="en" className="h-full">
+      <body className="h-full">
+        {children}
       </body>
     </html>
   );
