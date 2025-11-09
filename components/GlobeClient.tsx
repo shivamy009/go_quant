@@ -6,6 +6,16 @@ import { latencyColor } from '../lib/utils';
 import TimeSeriesChart from './TimeSeriesChart';
 import Loader from './Loader';
 
+type CloudRegion = {
+  id: string;
+  provider: string;
+  regionCode: string;
+  name: string;
+  lat: number;
+  lng: number;
+  radius: number;
+};
+
 type Server = {
   id: string;
   exchange: string;
@@ -39,15 +49,21 @@ interface GlobeClientProps {
 export default function GlobeClient({ filters }: GlobeClientProps) {
   const globeRef = useRef<any>(null);
   const [servers, setServers] = useState<Server[]>([]);
+  const [cloudRegions, setCloudRegions] = useState<CloudRegion[]>([]);
   const [latest, setLatest] = useState<Record<string, LatencySample>>({});
   const [arcs, setArcs] = useState<any[]>([]);
   const [points, setPoints] = useState<any[]>([]);
+  const [rings, setRings] = useState<any[]>([]);
   const [selectedServer, setSelectedServer] = useState<string | null>(null);
   const [history, setHistory] = useState<LatencySample[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [connected, setConnected] = useState(false);
   const [timeRange, setTimeRange] = useState('1h');
   const [showArcs, setShowArcs] = useState(true);
+  const [showRegions, setShowRegions] = useState(true);
+  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [showTopology, setShowTopology] = useState(false);
+  const [heatmapData, setHeatmapData] = useState<any[]>([]);
   const [globeSize, setGlobeSize] = useState({ width: 800, height: 600 });
 
   // Responsive globe sizing
@@ -73,6 +89,11 @@ export default function GlobeClient({ filters }: GlobeClientProps) {
     fetch('/api/servers')
       .then((r) => r.json())
       .then((d) => setServers(d.servers || [])).catch(()=>{});
+    
+    // Load cloud regions
+    fetch('/data/cloudRegions.json')
+      .then((r) => r.json())
+      .then((regions) => setCloudRegions(regions || [])).catch(()=>{});
   }, []);
 
   useEffect(() => {
@@ -124,8 +145,38 @@ export default function GlobeClient({ filters }: GlobeClientProps) {
       };
     });
 
+    // Cloud region rings
+    const regionRings = showRegions ? cloudRegions.filter(region => 
+      filters.providers.includes(region.provider)
+    ).map(region => ({
+      lat: region.lat,
+      lng: region.lng,
+      maxR: region.radius / 1000, // Convert to globe units
+      propagationSpeed: 1,
+      repeatPeriod: 2000,
+      color: getProviderColor(region.provider),
+      label: `${region.provider} ${region.name}\n${region.regionCode}`
+    })) : [];
+
+    // Heatmap data based on latency
+    const heatmap = showHeatmap ? filteredServers.map(server => {
+      const sample = latest[server.id];
+      const rtt = sample?.rttMs ?? null;
+      let weight = 0;
+      if (rtt !== null) {
+        // Convert latency to heat intensity (higher latency = more heat)
+        weight = Math.min(rtt / 200, 1); // Normalize to 0-1 range
+      }
+      return {
+        lat: server.lat,
+        lng: server.lng,
+        weight: weight,
+        val: rtt
+      };
+    }).filter(h => h.weight > 0) : [];
+
     const pairs: any[] = [];
-    if (showArcs) {
+    if (showArcs || showTopology) {
       for (let i = 0; i < filteredServers.length; i++) {
         for (let j = i + 1; j < filteredServers.length; j++) {
           const a = filteredServers[i];
@@ -133,15 +184,59 @@ export default function GlobeClient({ filters }: GlobeClientProps) {
           const ra = latest[a.id]?.rttMs ?? null;
           const rb = latest[b.id]?.rttMs ?? null;
           const avg = [ra, rb].filter(Boolean).length ? Math.round(((ra || 9999) + (rb || 9999)) / 2) : null;
-          const color = avg === null ? '#888888' : avg < 50 ? '#00ff7f' : avg < 150 ? '#ffeb3b' : '#ff4d4f';
+          
+          let color, stroke, altitude, strokeDasharray;
+          
+          if (showTopology) {
+            // Network topology mode - different styles for different connection types
+            const isSameProvider = a.provider === b.provider;
+            const isSameRegion = a.regionCode.split('-')[0] === b.regionCode.split('-')[0]; // Same geographic region
+            
+            if (isSameProvider && isSameRegion) {
+              // Same provider, same region - thick green line
+              color = '#10B981';
+              stroke = 0.8;
+              altitude = 0.1;
+              strokeDasharray = undefined;
+            } else if (isSameProvider) {
+              // Same provider, different region - dashed blue line
+              color = '#3B82F6';
+              stroke = 0.6;
+              altitude = 0.15;
+              strokeDasharray = [3, 3];
+            } else if (isSameRegion) {
+              // Different provider, same region - dotted orange line
+              color = '#F59E0B';
+              stroke = 0.4;
+              altitude = 0.08;
+              strokeDasharray = [1, 2];
+            } else {
+              // Different provider, different region - thin red line
+              color = '#EF4444';
+              stroke = 0.3;
+              altitude = 0.2;
+              strokeDasharray = undefined;
+            }
+          } else {
+            // Regular latency mode
+            color = avg === null ? '#888888' : avg < 50 ? '#00ff7f' : avg < 150 ? '#ffeb3b' : '#ff4d4f';
+            stroke = 0.4;
+            altitude = 0.15;
+            strokeDasharray = undefined;
+          }
+          
           pairs.push({
             startLat: a.lat,
             startLng: a.lng,
             endLat: b.lat,
             endLng: b.lng,
             color,
-            stroke: 0.4,
-            arcLabel: `${a.exchange} ↔ ${b.exchange}\nAvg: ${avg !== null ? avg + ' ms' : 'n/a'}`
+            stroke,
+            arcAltitude: altitude,
+            strokeDasharray,
+            arcLabel: showTopology 
+              ? `${a.exchange} ↔ ${b.exchange}\nProvider: ${a.provider === b.provider ? a.provider : `${a.provider} ↔ ${b.provider}`}\nLatency: ${avg !== null ? avg + ' ms' : 'n/a'}`
+              : `${a.exchange} ↔ ${b.exchange}\nAvg: ${avg !== null ? avg + ' ms' : 'n/a'}`
           });
         }
       }
@@ -149,7 +244,9 @@ export default function GlobeClient({ filters }: GlobeClientProps) {
 
     setPoints(pts);
     setArcs(pairs);
-  }, [servers, latest, filters, showArcs]);
+    setRings(regionRings);
+    setHeatmapData(heatmap);
+  }, [servers, latest, filters, showArcs, showRegions, showHeatmap, showTopology, cloudRegions]);
 
   useEffect(() => {
     if (!selectedServer) return;
@@ -184,20 +281,56 @@ export default function GlobeClient({ filters }: GlobeClientProps) {
     <div className="h-full flex flex-col lg:flex-row gap-4">
       <div className="flex-1 relative">
         <div className="absolute top-4 left-4 z-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
-          <div className="flex items-center gap-4 text-sm">
+          <div className="flex flex-wrap items-center gap-2 text-sm">
             <div className="flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`}></div>
               <span>{connected ? 'Connected' : 'Disconnected'}</span>
             </div>
             <button
-              onClick={() => setShowArcs(!showArcs)}
+              onClick={() => {
+                setShowArcs(!showArcs);
+                if (showTopology) setShowTopology(false);
+              }}
               className={`px-3 py-1 rounded transition-colors ${
-                showArcs 
+                showArcs && !showTopology
                   ? 'bg-blue-500 text-white' 
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
               }`}
             >
-              {showArcs ? 'Hide' : 'Show'} Connections
+              Latency
+            </button>
+            <button
+              onClick={() => {
+                setShowTopology(!showTopology);
+                if (showArcs) setShowArcs(false);
+              }}
+              className={`px-3 py-1 rounded transition-colors ${
+                showTopology 
+                  ? 'bg-indigo-500 text-white' 
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Topology
+            </button>
+            <button
+              onClick={() => setShowRegions(!showRegions)}
+              className={`px-3 py-1 rounded transition-colors ${
+                showRegions 
+                  ? 'bg-purple-500 text-white' 
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Regions
+            </button>
+            <button
+              onClick={() => setShowHeatmap(!showHeatmap)}
+              className={`px-3 py-1 rounded transition-colors ${
+                showHeatmap 
+                  ? 'bg-red-500 text-white' 
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              Heatmap
             </button>
           </div>
         </div>
@@ -221,8 +354,24 @@ export default function GlobeClient({ filters }: GlobeClientProps) {
           arcEndLng="endLng"
           arcColor="color"
           arcStroke="stroke"
-          arcAltitude={0.15}
+          arcAltitude="arcAltitude"
+          arcDashLength={2}
+          arcDashGap={1}
+          arcDashAnimateTime={4000}
           arcLabel="arcLabel"
+          ringsData={rings}
+          ringLat="lat"
+          ringLng="lng"
+          ringMaxRadius="maxR"
+          ringPropagationSpeed="propagationSpeed"
+          ringRepeatPeriod="repeatPeriod"
+          ringColor="color"
+          heatmapsData={[heatmapData]}
+          heatmapPointLat="lat"
+          heatmapPointLng="lng"
+          heatmapPointWeight="weight"
+          heatmapTopAltitude={0.02}
+          heatmapBaseAltitude={0.01}
           width={globeSize.width}
           height={globeSize.height}
           enablePointerInteraction={true}

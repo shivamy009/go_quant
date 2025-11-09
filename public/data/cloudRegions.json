@@ -1,0 +1,128 @@
+[
+  {
+    "id": "aws-us-east-1",
+    "provider": "AWS",
+    "regionCode": "us-east-1",
+    "name": "N. Virginia",
+    "lat": 38.13,
+    "lng": -78.45,
+    "radius": 200
+  },
+  {
+    "id": "aws-us-west-1",
+    "provider": "AWS",
+    "regionCode": "us-west-1",
+    "name": "N. California",
+    "lat": 37.35,
+    "lng": -121.96,
+    "radius": 200
+  },
+  {
+    "id": "aws-us-west-2",
+    "provider": "AWS",
+    "regionCode": "us-west-2",
+    "name": "Oregon",
+    "lat": 45.87,
+    "lng": -119.69,
+    "radius": 200
+  },
+  {
+    "id": "aws-eu-west-1",
+    "provider": "AWS",
+    "regionCode": "eu-west-1",
+    "name": "Ireland",
+    "lat": 53.35,
+    "lng": -6.26,
+    "radius": 150
+  },
+  {
+    "id": "aws-eu-central-1",
+    "provider": "AWS",
+    "regionCode": "eu-central-1",
+    "name": "Frankfurt",
+    "lat": 50.11,
+    "lng": 8.68,
+    "radius": 150
+  },
+  {
+    "id": "aws-ap-southeast-1",
+    "provider": "AWS",
+    "regionCode": "ap-southeast-1",
+    "name": "Singapore",
+    "lat": 1.29,
+    "lng": 103.85,
+    "radius": 100
+  },
+  {
+    "id": "gcp-us-central1",
+    "provider": "GCP",
+    "regionCode": "us-central1",
+    "name": "Iowa",
+    "lat": 41.59,
+    "lng": -93.62,
+    "radius": 200
+  },
+  {
+    "id": "gcp-us-west1",
+    "provider": "GCP",
+    "regionCode": "us-west1",
+    "name": "Oregon",
+    "lat": 45.60,
+    "lng": -121.18,
+    "radius": 200
+  },
+  {
+    "id": "gcp-europe-west1",
+    "provider": "GCP",
+    "regionCode": "europe-west1",
+    "name": "Belgium",
+    "lat": 50.85,
+    "lng": 4.35,
+    "radius": 150
+  },
+  {
+    "id": "gcp-asia-southeast1",
+    "provider": "GCP",
+    "regionCode": "asia-southeast1",
+    "name": "Singapore",
+    "lat": 1.37,
+    "lng": 103.80,
+    "radius": 100
+  },
+  {
+    "id": "azure-eastus",
+    "provider": "Azure",
+    "regionCode": "eastus",
+    "name": "East US",
+    "lat": 37.36,
+    "lng": -79.42,
+    "radius": 200
+  },
+  {
+    "id": "azure-westus2",
+    "provider": "Azure",
+    "regionCode": "westus2",
+    "name": "West US 2",
+    "lat": 47.23,
+    "lng": -119.85,
+    "radius": 200
+  },
+  {
+    "id": "azure-northeurope",
+    "provider": "Azure",
+    "regionCode": "northeurope",
+    "name": "North Europe",
+    "lat": 53.35,
+    "lng": -6.26,
+    "radius": 150
+  },
+  {
+    "id": "azure-southeastasia",
+    "provider": "Azure",
+    "regionCode": "southeastasia",
+    "name": "Southeast Asia",
+    "lat": 1.28,
+    "lng": 103.85,
+    "radius": 100
+  }
+]

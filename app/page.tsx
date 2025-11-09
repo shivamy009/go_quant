@@ -112,6 +112,28 @@ export default function Page() {
                   </div>
                 </div>
               </div>
+
+              <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <h3 className="font-semibold mb-2">Network Topology</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center">
+                    <div className="w-4 h-0.5 bg-green-500 mr-2"></div>
+                    <span>Same Provider + Region</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-4 h-0.5 bg-blue-500 mr-2 border-dashed"></div>
+                    <span>Same Provider</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-4 h-0.5 bg-orange-500 mr-2" style={{borderTop: '1px dotted'}}></div>
+                    <span>Same Region</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-4 h-0.5 bg-red-500 mr-2"></div>
+                    <span>Cross-Provider</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">

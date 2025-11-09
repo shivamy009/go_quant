@@ -21,7 +21,7 @@ const providers = [
   { id: 'Other', name: 'Other Providers', color: 'bg-purple-500' }
 ];
 
-const exchanges = ['Binance', 'Bybit', 'OKX', 'Deribit', 'Coinbase', 'FTX'];
+const exchanges = ['Binance', 'Bybit', 'OKX', 'Deribit', 'Coinbase', 'FTX', 'Kraken', 'Huobi', 'KuCoin', 'Gate.io', 'Bitfinex', 'BitMEX', 'Phemex', 'MEXC'];
 
 export default function ControlPanel({ filters, onFiltersChange }: ControlPanelProps) {
   const [searchTerm, setSearchTerm] = useState('');

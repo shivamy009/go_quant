@@ -20,12 +20,32 @@
     "port": 443
   },
   {
+    "id": "binance-eu",
+    "exchange": "Binance",
+    "provider": "AWS",
+    "regionCode": "eu-west-1",
+    "lat": 53.3498,
+    "lng": -6.2603,
+    "host": "api.binance.com",
+    "port": 443
+  },
+  {
     "id": "bybit-sg",
     "exchange": "Bybit",
     "provider": "GCP",
     "regionCode": "asia-southeast1",
     "lat": 1.3521,
     "lng": 103.8198,
+    "host": "api.bybit.com",
+    "port": 443
+  },
+  {
+    "id": "bybit-us",
+    "exchange": "Bybit",
+    "provider": "GCP",
+    "regionCode": "us-central1",
+    "lat": 41.2619,
+    "lng": -95.8608,
     "host": "api.bybit.com",
     "port": 443
   },
@@ -40,6 +60,16 @@
     "port": 443
   },
   {
+    "id": "okx-us",
+    "exchange": "OKX",
+    "provider": "Azure",
+    "regionCode": "eastus",
+    "lat": 37.3719,
+    "lng": -79.8164,
+    "host": "www.okx.com",
+    "port": 443
+  },
+  {
     "id": "deribit-nl",
     "exchange": "Deribit",
     "provider": "Other",
@@ -47,6 +77,126 @@
     "lat": 52.3676,
     "lng": 4.9041,
     "host": "www.deribit.com",
+    "port": 443
+  },
+  {
+    "id": "coinbase-us",
+    "exchange": "Coinbase",
+    "provider": "AWS",
+    "regionCode": "us-west-2",
+    "lat": 45.5152,
+    "lng": -122.6784,
+    "host": "api.coinbase.com",
+    "port": 443
+  },
+  {
+    "id": "coinbase-eu",
+    "exchange": "Coinbase",
+    "provider": "AWS",
+    "regionCode": "eu-central-1",
+    "lat": 50.1109,
+    "lng": 8.6821,
+    "host": "api.coinbase.com",
+    "port": 443
+  },
+  {
+    "id": "kraken-us",
+    "exchange": "Kraken",
+    "provider": "GCP",
+    "regionCode": "us-west1",
+    "lat": 37.4419,
+    "lng": -122.1430,
+    "host": "api.kraken.com",
+    "port": 443
+  },
+  {
+    "id": "kraken-eu",
+    "exchange": "Kraken",
+    "provider": "GCP",
+    "regionCode": "europe-west1",
+    "lat": 50.8503,
+    "lng": 4.3517,
+    "host": "api.kraken.com",
+    "port": 443
+  },
+  {
+    "id": "huobi-sg",
+    "exchange": "Huobi",
+    "provider": "Azure",
+    "regionCode": "southeastasia",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "api.huobi.pro",
+    "port": 443
+  },
+  {
+    "id": "kucoin-sg",
+    "exchange": "KuCoin",
+    "provider": "AWS",
+    "regionCode": "ap-southeast-1",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "api.kucoin.com",
+    "port": 443
+  },
+  {
+    "id": "gate-sg",
+    "exchange": "Gate.io",
+    "provider": "GCP",
+    "regionCode": "asia-southeast1",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "api.gateio.ws",
+    "port": 443
+  },
+  {
+    "id": "ftx-us",
+    "exchange": "FTX",
+    "provider": "AWS",
+    "regionCode": "us-east-1",
+    "lat": 40.7128,
+    "lng": -74.006,
+    "host": "ftx.com",
+    "port": 443
+  },
+  {
+    "id": "bitfinex-us",
+    "exchange": "Bitfinex",
+    "provider": "Other",
+    "regionCode": "us-east",
+    "lat": 40.7128,
+    "lng": -74.006,
+    "host": "api.bitfinex.com",
+    "port": 443
+  },
+  {
+    "id": "bitmex-us",
+    "exchange": "BitMEX",
+    "provider": "AWS",
+    "regionCode": "us-west-1",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "host": "www.bitmex.com",
+    "port": 443
+  },
+  {
+    "id": "phemex-sg",
+    "exchange": "Phemex",
+    "provider": "Azure",
+    "regionCode": "southeastasia",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "api.phemex.com",
+    "port": 443
+  },
+  {
+    "id": "mexc-sg",
+    "exchange": "MEXC",
+    "provider": "GCP",
+    "regionCode": "asia-southeast1",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "host": "api.mexc.com",
     "port": 443
   }
 ]
