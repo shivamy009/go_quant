@@ -13,10 +13,9 @@ export default function Page() {
     exchanges: [] as string[],
     latencyRange: { min: 0, max: 1000 }
   });
-  const [darkMode, setDarkMode] = useState(true);
 
   return (
-    <div className={`${darkMode ? 'dark' : ''} min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300`}>
+  <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
       <div className="container mx-auto px-4 py-6">
         <header className="mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -29,13 +28,6 @@ export default function Page() {
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                aria-label="Toggle theme"
-              >
-                {darkMode ? '☀️' : '🌙'}
-              </button>
               <PerformanceMetrics />
             </div>
           </div>
