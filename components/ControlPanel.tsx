@@ -2,6 +2,7 @@
 'use client';
 import React, { useState } from 'react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import * as XLSX from 'xlsx';
 
 type Filters = {
   providers: string[];
@@ -193,8 +194,52 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
 
         {/* Quick Actions */}
         <div className="space-y-2">
-          <button className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium">
-            📊 Export Current Data
+          <button onClick={async () => {
+            try {
+              const res = await fetch('/api/latency/snapshot');
+              if (!res.ok) throw new Error('Failed to fetch snapshot');
+              const payload = await res.json();
+              const servers = payload.servers || [];
+              const latest = payload.latest || {};
+
+              // apply filters
+              const filtered = servers.filter((s: any) => {
+                const providerMatch = filters.providers.includes(s.provider);
+                const exchangeMatch = filters.exchanges.length === 0 || filters.exchanges.includes(s.exchange);
+                const sample = latest[s.id];
+                const rtt = sample?.rttMs ?? null;
+                const latencyMatch = rtt === null || (rtt >= filters.latencyRange.min && rtt <= filters.latencyRange.max);
+                return providerMatch && exchangeMatch && latencyMatch;
+              });
+
+              const rows = filtered.map((s: any) => {
+                const sample = latest[s.id] || {};
+                return {
+                  id: s.id,
+                  exchange: s.exchange,
+                  provider: s.provider,
+                  regionCode: s.regionCode,
+                  lat: s.lat,
+                  lng: s.lng,
+                  host: s.host,
+                  port: s.port,
+                  rttMs: sample.rttMs ?? '',
+                  status: sample.status ?? '',
+                  timestamp: sample.timestamp ?? payload.timestamp
+                };
+              });
+
+              const ws = XLSX.utils.json_to_sheet(rows);
+              const wb = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(wb, ws, 'snapshot');
+              const fn = `latency_snapshot_${new Date().toISOString().replace(/[:.]/g, '-')}.xlsx`;
+              XLSX.writeFile(wb, fn);
+            } catch (err) {
+              console.error(err);
+              alert('Failed to export data: ' + (err as any).message);
+            }
+          }} className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium">
+            📊 Export Current Data (.xlsx)
           </button>
           <button className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm font-medium">
             🔄 Refresh Data
