@@ -1,182 +1,192 @@
 # Crypto Exchange Latency Visualizer
 
-A comprehensive Next.js application that provides real-time 3D visualization of cryptocurrency exchange server locations and latency monitoring across AWS, GCP, and Azure cloud regions.
+**Developer:** Shivam Yadav  
+**Email:** shivamy0345@gmail.com  
+**Phone:** 6394741529  
+**GitHub:** https://github.com/shivamy009/go_quant  
 
-## 🚀 Features
+A sophisticated real-time 3D web application that monitors cryptocurrency exchange server latency across major cloud providers (AWS, GCP, Azure). The application provides live network performance visualization, historical trend analysis, and comprehensive monitoring capabilities for cryptocurrency trading infrastructure.
 
-### Core Functionality
-- **Interactive 3D World Map**: Smooth rotating globe with zoom and pan controls
-- **Real-time Latency Monitoring**: Live updates every 5-10 seconds via Server-Sent Events (SSE)
-- **Exchange Server Visualization**: Major exchanges (Binance, Bybit, OKX, Deribit) plotted with provider-specific colors
-- **Historical Data Analysis**: Time-series charts with 1h, 24h, 7d, 30d ranges
-- **Cloud Provider Regions**: Visual distinction between AWS, GCP, Azure, and other providers
+### 🔗 Live Demo
+Open [http://localhost:3000](http://localhost:3000) after setup to explore the application.
 
-### Interactive Controls
-- **Advanced Filtering**: Filter by cloud provider, exchange, and latency range
-- **Search Functionality**: Quick search for specific exchanges or regions
-- **Real-time Performance Metrics**: System status dashboard with live statistics
-- **Export Capabilities**: CSV and JSON export for latency data and reports
+## ✨ Key Features
 
-### UI/UX Features
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Dark/Light Theme Toggle**: User preference support
-- **Touch Controls**: Mobile-friendly 3D globe interaction
-- **Loading States**: Proper error handling and loading indicators
-- **Performance Optimized**: Efficient 3D rendering with adaptive sizing
+### 🌐 **Interactive 3D World Map**
+- WebGL-powered globe visualization using react-globe.gl
+- Real-time server location markers with provider-specific colors
+- Smooth rotation, zoom, and pan controls
+- Responsive design for desktop, tablet, and mobile
 
-## 🛠️ Technology Stack
+### ⚡ **Real-time Latency Monitoring**
+- Live updates every 5 seconds via Server-Sent Events (SSE)
+- TCP connection-based latency measurements
+- Color-coded performance indicators:
+  - 🟢 Green: <50ms (excellent)
+  - 🟡 Yellow: 50-150ms (good)
+  - 🔴 Red: >150ms (slow)
+- Animated connection arcs between servers
 
-- **Frontend**: Next.js 16, React 19, TypeScript
-- **3D Visualization**: react-globe.gl, Three.js
-- **Charting**: Recharts
-- **Styling**: Tailwind CSS v4
-- **Icons**: Heroicons
-- **Real-time Data**: Server-Sent Events (SSE)
-- **State Management**: React hooks and context
+### 📊 **Historical Data Analysis**
+- Time-series charts with multiple ranges (1h, 24h, 7d, 30d)
+- Statistical analysis (min, max, average, sample count)
+- Interactive data visualization with Recharts
+- Data export in multiple formats (CSV, JSON, Excel)
 
-## 📦 Installation & Setup
+### 🎛️ **Advanced Controls & Filtering**
+- Filter by cloud provider (AWS, GCP, Azure, Other)
+- Filter by specific cryptocurrency exchanges
+- Latency range filtering with slider controls
+- Search functionality across exchanges and regions
+
+### 🔍 **Multiple Visualization Modes**
+- **Latency Mode:** Real-time performance visualization
+- **Topology Mode:** Network relationship mapping
+- **Heatmap Mode:** Geographic latency intensity
+- **Regions Mode:** Cloud provider coverage areas
+
+## 🏗️ Technology Stack
+
+### Frontend
+- **Framework:** Next.js 16 with App Router
+- **UI Library:** React 19 with modern hooks
+- **Language:** TypeScript for type safety
+- **Styling:** Tailwind CSS v4 with responsive design
+- **3D Graphics:** react-globe.gl + Three.js for WebGL rendering
+- **Charts:** Recharts for data visualization
+- **Icons:** Heroicons for UI elements
+
+### Backend
+- **Runtime:** Node.js with Next.js API routes
+- **Real-time:** Server-Sent Events (SSE) for live streaming
+- **Data Processing:** In-memory worker with automatic cleanup
+- **Network Monitoring:** TCP connection latency measurements
+- **APIs:** RESTful endpoints + streaming endpoints
+
+## � Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn package manager
+- **Node.js:** 18+ (recommended: 20+)
+- **npm or yarn:** Package manager
+- **Modern Browser:** Chrome, Firefox, Safari, or Edge with WebGL support
 
-### Quick Start
-
-1. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-2. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-3. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-### Build for Production
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/shivamy009/go_quant.git
+cd go_quant
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Open your browser and navigate to
+# http://localhost:3000
+```
+
+### Production Build
+
+```bash
+# Build for production
 npm run build
+
+# Start production server
 npm start
 ```
 
-## 📊 Features Implementation
-
-### ✅ 3D World Map Display
-- Interactive globe with smooth controls
-- Exchange server markers with hover information
-- Responsive globe sizing based on container
-
-### ✅ Exchange Server Locations
-- Major cryptocurrency exchanges plotted accurately
-- Provider-specific color coding (AWS: Orange, GCP: Blue, Azure: Cyan)
-- Comprehensive server information display
-
-### ✅ Real-time Latency Visualization
-- Animated connection arcs between servers
-- Color-coded latency ranges (Green: <50ms, Yellow: 50-150ms, Red: >150ms)
-- Live updates via SSE with 5-10 second intervals
-
-### ✅ Historical Latency Trends
-- Interactive time-series charts
-- Multiple time range options (1h, 24h, 7d, 30d)
-- Statistical analysis (min, max, average)
-
-### ✅ Interactive Controls
-- Comprehensive filtering system
-- Search functionality for exchanges/regions
-- Toggle switches for visualization layers
-- Export functionality for data and reports
-
-### ✅ Responsive Design
-- Mobile-optimized layout and controls
-- Touch-friendly 3D globe interaction
-- Adaptive component sizing
-
-### ✅ Bonus Features
-- Dark/light theme toggle
-- Performance metrics dashboard
-- Advanced export capabilities (CSV/JSON)
-- Real-time connection status indicator
-
-## 🧪 API Endpoints
+## 🔌 API Endpoints
 
 ### REST Endpoints
-- `GET /api/servers` - Retrieve server configuration
-- `GET /api/latency/history` - Historical latency data
+- `GET /api/servers` - Server configuration data
+- `GET /api/latency` - Current latency snapshot
+- `GET /api/latency/history` - Historical data with filtering
+- `GET /api/latency/snapshot` - Data export endpoint
 
-### Real-time Endpoints
-- `GET /api/latency/stream` - Server-Sent Events stream for live updates
+### Streaming Endpoints
+- `GET /api/latency/stream` - Server-Sent Events for real-time updates
+
+### Example Response
+```json
+{
+  "servers": [...],
+  "latest": {
+    "binance-ny": {
+      "id": "binance-ny",
+      "host": "api.binance.com",
+      "port": 443,
+      "timestamp": "2025-11-11T10:30:00.000Z",
+      "rttMs": 45,
+      "status": "ok"
+    }
+  }
+}
+```
 
 ## 📖 Usage Guide
 
 ### Basic Navigation
-1. **Globe Interaction**: Click and drag to rotate, scroll to zoom
-2. **Server Selection**: Click on markers to view detailed information
-3. **Filtering**: Use the control panel to filter by provider, exchange, or latency
-4. **Theme Toggle**: Switch between dark and light modes
-5. **Data Export**: Export historical data in CSV or JSON format
+1. **Globe Interaction:** Click and drag to rotate, scroll to zoom
+2. **Server Selection:** Click markers for detailed information
+3. **Filtering:** Use control panel to filter by provider or exchange
+4. **Time Analysis:** Select servers for historical trend analysis
 
-## 🚀 Performance Optimizations
+### Advanced Features
+1. **Visualization Modes:** Toggle between latency, topology, and heatmap views
+2. **Data Export:** Export current data or historical analysis
+3. **Performance Monitoring:** View real-time system metrics
+4. **Search:** Find specific exchanges or geographic regions
 
-- **3D Rendering**: Adaptive globe sizing and efficient rendering
-- **Data Management**: Optimized state updates and caching
-- **Mobile Performance**: Reduced complexity for mobile devices
-- **Loading States**: Progressive loading with proper error handling
+### Mobile Usage
+1. **Touch Controls:** Pinch to zoom, swipe to rotate
+2. **Responsive Layout:** Automatic adaptation to screen size
+3. **Collapsible Panels:** Efficient use of mobile screen space
 
-## 📝 Assumptions Made
+## 🎯 Monitored Exchanges
 
-1. **Latency Measurement**: Uses TCP connection timing as a proxy for network latency
-2. **Data Source**: Demo uses simulated/synthetic data for reliable demonstration
-3. **Update Frequency**: 5-10 second intervals balance real-time feel with performance
-4. **Geographic Accuracy**: Server locations are approximated based on known exchange infrastructure
+### Major Cryptocurrency Exchanges
+- **Binance** (AWS: US East, Singapore, EU West)
+- **Bybit** (GCP: Singapore, US Central)
+- **OKX** (Azure: Singapore, US East)
+- **Coinbase** (AWS: US West, EU Central)
+- **Kraken** (GCP: US West, EU West)
+- **And 15+ more exchanges**
 
-## 🔧 Libraries Used
+### Cloud Provider Coverage
+- **🟠 AWS** - Amazon Web Services (6 regions)
+- **🔵 GCP** - Google Cloud Platform (4 regions)
+- **🟦 Azure** - Microsoft Azure (4 regions)
 
-- **react-globe.gl**: 3D globe visualization
-- **three.js**: WebGL 3D graphics library
-- **recharts**: React charting library
-- **@heroicons/react**: Icon library
-- **tailwindcss**: Utility-first CSS framework
-- **typescript**: Type safety and better development experience
+## 🧪 Testing & Browser Support
+
+### Browser Compatibility
+- ✅ **Chrome** - Full support (recommended)
+- ✅ **Firefox** - Full support
+- ✅ **Safari** - WebGL and ES6 support required
+- ✅ **Edge** - Full support
+
+### Performance Requirements
+- **WebGL Support** - Required for 3D visualization
+- **Modern JavaScript** - ES6+ features used throughout
+- **Memory** - 4GB+ RAM recommended for smooth rendering
+
+## 📊 Performance Metrics
+
+### Real-time Monitoring
+- **Update Frequency:** 5-second intervals
+- **Concurrent Users:** Designed for multiple simultaneous connections
+- **Data Retention:** In-memory with automatic cleanup (2000 samples max)
+- **Frame Rate:** 60 FPS WebGL rendering
+
+
+### Documentation
+- **Technical Docs:** See `PROJECT_DOCUMENTATION.md`
+- **API Reference:** Available at `/api` endpoints
+- **Demo Video:** 5-minute feature demonstration available
 
 ---
 
-**Note**: This application demonstrates latency monitoring capabilities using TCP connection measurements. For production use, consider implementing dedicated network monitoring infrastructure.
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Built with ❤️ using Next.js, React, and TypeScript**  
+*Real-time 3D cryptocurrency exchange latency monitoring made simple.*
