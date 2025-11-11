@@ -187,6 +187,3 @@ npm start
 - **Demo Video:** 5-minute feature demonstration available
 
 ---
-
-**Built with ❤️ using Next.js, React, and TypeScript**  
-*Real-time 3D cryptocurrency exchange latency monitoring made simple.*
